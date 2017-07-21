@@ -1,6 +1,8 @@
 %module foobar
-
+%include "stdint.i"
 %{
-#include "Foobar.hpp"
+#include "/usr/include/x502api.h"
 %}
-%include "Foobar.hpp"
+%include "/usr/include/x502api.h"
+
+

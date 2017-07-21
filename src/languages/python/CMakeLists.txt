@@ -14,7 +14,8 @@ if (PYTHON)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/MANIFEST.in ${CMAKE_CURRENT_BINARY_DIR}/setup/MANIFEST.in)
 
     # swig
-    set_source_files_properties(../interface.i PROPERTIES CPLUSPLUS ON)
+    set_source_files_properties(../interface.i PROPERTIES CPLUSPLUS OFF)
+    SET_SOURCE_FILES_PROPERTIES(../interface.i PROPERTIES SWIG_FLAGS "-includeall")
     set_property(SOURCE ../interface.i PROPERTY SWIG_FLAGS
                  ${swig_extra_flags}
                  -Wall)
@@ -25,7 +26,8 @@ if (PYTHON)
                           SUFFIX ${PYLIB_SUFFIX}
                           COMPILE_FLAGS ${PYTHON_CFLAGS}
                           LINK_FLAGS ${PYTHON_LDFLAGS})
-    target_link_libraries(_pyfoobar foobar)
+    find_library (foobar NAMES e502api)
+    target_link_libraries(_pyfoobar -le502api -lx502api)
     add_custom_command(TARGET _pyfoobar POST_BUILD
         COMMAND ${CMAKE_COMMAND} 
                     -DFROM=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.py -DTO=${CMAKE_CURRENT_BINARY_DIR}/setup/${PYTHON_PACKAGE}/__init__.py 
